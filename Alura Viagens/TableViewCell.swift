@@ -13,5 +13,17 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var labelQuantidadeDias: UILabel!
     @IBOutlet weak var labelPreco: UILabel!
     @IBOutlet weak var imagemViagem: UIImageView!
+    
+    func configuraCelula(viagemAtual:Viagem){
+        labelTitulo.text = viagemAtual.titulo
+        
+        labelQuantidadeDias.text = viagemAtual.quantidadeDeDias == 1 ? "1 dia" : "\(viagemAtual.quantidadeDeDias) dias"
+        
+        labelPreco.text = "R$ \(viagemAtual.preco)"
+        imagemViagem.image = UIImage(named: viagemAtual.caminhoDaImagem)
+        
+        imagemViagem.layer.cornerRadius = 10
+        imagemViagem.layer.masksToBounds = true
+    }
 
 }

@@ -43,24 +43,17 @@ class PacotesViagensViewController: UIViewController,
         
         let pacoteAtual = listaViagens[indexPath.item]
         
-        celulaPacote.labelTitulo.text = pacoteAtual.viagem.titulo
-        celulaPacote.labelQuantidadeDias.text = "\(pacoteAtual.viagem.quantidadeDeDias) dias"
-        celulaPacote.labelPreco.text = "R$ \(pacoteAtual.viagem.preco)"
-        celulaPacote.imagemViagem.image = UIImage(named: pacoteAtual.viagem.caminhoDaImagem)
-        
-        
-        celulaPacote.layer.borderWidth = 0.5
-        celulaPacote.layer.borderColor = UIColor(red: 85.0/255.0, green: 85.0/255.0, blue: 85.0/255.0, alpha: 1).cgColor
-        celulaPacote.layer.cornerRadius = 8
-        
+        celulaPacote.configuraCelula(pacoteViagem: pacoteAtual)
         
         return celulaPacote
     }
     
     //ajuste de tamanho de celula
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let larguraCelula = collectionView.bounds.width / 2
-        return CGSize(width: larguraCelula - 15, height: 160)
+        
+        return UIDevice.current.userInterfaceIdiom == .phone
+            ? CGSize(width: collectionView.bounds.width / 2 - 15, height: 160)
+            : CGSize(width: collectionView.bounds.width / 3 - 20, height: 250)
     }
     
     
@@ -76,7 +69,7 @@ class PacotesViagensViewController: UIViewController,
         controller.modalTransitionStyle = .crossDissolve
         controller.pacoteSelecionado = pacote
         
-        self.show(controller, sender: self)
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     
@@ -87,6 +80,7 @@ class PacotesViagensViewController: UIViewController,
         if searchText != "" {
             listaViagens = listaViagens.filter{ $0.viagem.titulo.contains(searchText)}
         }
+        
         self.labelContadorDePacotes.text = self.atualizaContadorLabel()
         colecaoPacotesViagem.reloadData()
     }
